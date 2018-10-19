@@ -20,27 +20,27 @@ public class CreateSDFTexture : EditorWindow
 
 	bool InsideShape(int x, int y)
 	{
-		return source.GetPixel(x, y).a > 0.5f;
+		return source.GetPixel(x, y).r > 0.5f;
 	}
 
 	float NearestEdge(int x, int y)
 	{
-		float nearest = this.distance;
+		float nearest = this.distance * Mathf.Sqrt(2.0f);
 		bool inside = InsideShape(x, y);
 		for (int dy = -this.distance; dy <= this.distance; ++dy)
 		{
 			for (int dx = -this.distance; dx <= this.distance; ++dx)
 			{
 				float distance = new Vector2(dx, dy).magnitude;
-				if (distance < this.distance && inside != InsideShape(x + dx, y + dy) && distance < nearest)
+				if (inside != InsideShape(x + dx, y + dy) && distance < nearest)
 				{
 					nearest = distance;
 				}
 			}
 		}
 		return inside ?
-		       (Mathf.Lerp(0.5f, 1.0f, nearest / this.distance)):
-		       (Mathf.Lerp(0.5f, 0.0f, nearest / this.distance));
+		       (Mathf.Lerp(0.5f, 1.0f, nearest / (this.distance * Mathf.Sqrt(2.0f)))):
+		       (Mathf.Lerp(0.5f, 0.0f, nearest / (this.distance * Mathf.Sqrt(2.0f))));
 	}
 
 	Texture2D CreateSDF()
@@ -52,8 +52,8 @@ public class CreateSDFTexture : EditorWindow
 		{
 			for (int x = 0; x < dimensions.x; ++x)
 			{
-				int sourceX = Mathf.RoundToInt((float)(source.width) * (float)x / (float)(dimensions.x));
-				int sourceY = Mathf.RoundToInt((float)(source.height) * (float)y / (float)(dimensions.y));
+				int sourceX = Mathf.RoundToInt((float)(source.width) * (float)x / (float)(dimensions.x - 1));
+				int sourceY = Mathf.RoundToInt((float)(source.height) * (float)y / (float)(dimensions.y - 1));
 				colour.a = NearestEdge(sourceX, sourceY);
 				SDF.SetPixel(x, y, colour);
 			}
