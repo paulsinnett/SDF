@@ -1,4 +1,9 @@
 {
-	"dependencies": {
-	}
+  "dependencies": {
+    "com.unity.vectorgraphics": "1.0.0-preview.20",
+    "com.unity.ads": "exclude",
+    "com.unity.analytics": "exclude",
+    "com.unity.standardevents": "exclude",
+    "com.unity.purchasing": "exclude"
+  }
 }
