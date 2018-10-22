@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 3x3Slice
-  m_Shader: {fileID: 4800000, guid: 4363464313ad95a4aaef4a9333c31ae1, type: 3}
+  m_Shader: {fileID: 4800000, guid: bd280f33f9a1cbe479df314c6fa98159, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -37,6 +37,10 @@ Material:
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FillTex:
+        m_Texture: {fileID: 2800000, guid: 7f13775d8dac649e784d8a581262ce2f, type: 3}
+        m_Scale: {x: 5, y: 3}
         m_Offset: {x: 0, y: 0}
     - _LeftRightTex:
         m_Texture: {fileID: 2800000, guid: ffa0a71694872964a8e950a35a60a9d6, type: 3}
@@ -86,4 +90,4 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Slices: {r: 0.4, g: 0.4, b: 0.6, a: 0.6}
-    - _Widths: {r: 0.01, g: 0.02, b: 0.01, a: 0.02}
+    - _Widths: {r: 0.4, g: 0.4, b: 0.01, a: 0.02}

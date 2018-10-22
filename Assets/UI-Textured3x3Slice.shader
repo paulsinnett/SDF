@@ -1,12 +1,13 @@
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 // Modified to support SDF
 
-Shader "UI/3x3Slice"
+Shader "UI/Textured3x3Slice"
 {
     Properties
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _LeftRightTex ("Left and Right sides", 2D) = "white" {}
+        _FillTex ("Fill Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
         _Widths ("Widths", Vector) = (0.1,0.1,0.1,0.1) 
         // width of border on source texture in U, 
@@ -85,12 +86,13 @@ Shader "UI/3x3Slice"
 
             sampler2D _MainTex;
             sampler2D _LeftRightTex;
+            sampler2D _FillTex;
             fixed4 _Color;
             float4 _ClipRect;
             float4 _Slices;
             float4 _Widths;
             float4 _MainTex_ST;
-            float4 _LeftRightTex_ST;
+            float4 _FillTex_ST;
 
             v2f vert(appdata_t v)
             {
@@ -100,7 +102,7 @@ Shader "UI/3x3Slice"
                 OUT.worldPosition = v.vertex;
                 OUT.vertex = UnityObjectToClipPos(OUT.worldPosition);
                 OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-                OUT.texcoord2 = TRANSFORM_TEX(v.texcoord, _LeftRightTex);
+                OUT.texcoord2 = TRANSFORM_TEX(v.texcoord, _FillTex);
                 OUT.color = v.color * _Color;
                 return OUT;
             }
@@ -119,7 +121,7 @@ Shader "UI/3x3Slice"
                     tex2D(_LeftRightTex, float2(1 - (1 - ilerp(1 - _Widths[2], 1, IN.texcoord[0])) * (1 - _Widths[0]), IN.texcoord[1])).a,
                     tex2D(_MainTex, float2(IN.texcoord[0], ilerp(0, _Widths[3], IN.texcoord[1]) * (1 - _Widths[1]))).a
                 };
-                fixed4 color = _Color;
+                fixed4 color = tex2D(_FillTex, IN.texcoord2);
                 color.a = sides[0] * sides[1] * sides[2] * sides[3];
                 #ifdef UNITY_UI_CLIP_RECT
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
